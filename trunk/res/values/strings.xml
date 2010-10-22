@@ -4,10 +4,23 @@
     <string name="app_name">Life</string>
     
     <string name="choose_start">С чего начнем?</string>
-    <string name="choose_start_more">Выберите начальное состояние колонии</string>
-    <string name="baken">Бакен</string>
-    <string name="watch">Часы</string>
-    <string name="toad">Жаба</string>
+    <string name="choose_start_more">Выберите начальное состояние компании</string>
+    <string name="baken">Филиал Омега-софт</string>
+    <string name="watch">Стартап Плинтер</string>
+    <string name="toad">ОАО Жабожаб</string>
     
     <string name="next">Далее</string>
+    
+    <string name="info">Развитие идет по законам игры Life</string>
+    
+    <string name="inf1">Менее 2 коллег рядом - уныние и отчаяние. </string>
+    <string name="inf2">Ровно три соседа - пора брать стажера!</string>
+    <string name="inf3">Более трех - тесновато. Юнит исчезает. </string>
+    
+    <string name="info_units">Типы юнитов</string>
+    
+    <string name="info_red">Демотивированный. 5-10$ в день</string>
+    <string name="info_green">Стажер-энтузиаст. 0-20$ в день</string>
+    <string name="info_yellow">Рядовой сотрудник. Приносит 10-20$ в день</string>
+    
 </resources>

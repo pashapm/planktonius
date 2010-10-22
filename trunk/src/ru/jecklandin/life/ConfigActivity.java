@@ -1,6 +1,7 @@
 package ru.jecklandin.life;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import android.app.Activity;
 import android.content.Context;
@@ -45,10 +46,12 @@ public class ConfigActivity extends Activity implements OnClickListener {
 		mField2 = (GameField) findViewById(R.id.start2);
 		mField3 = (GameField) findViewById(R.id.start3);
 		try {
-			mField1.setGame(LifeGame.createFromFile("/sdcard/toad_l.xml", 6));
-			mField2.setGame(LifeGame.createFromFile("/sdcard/baken_l.xml", 6));
-			mField3.setGame(LifeGame.createFromFile("/sdcard/watch_l.xml", 6));
+			mField1.setGame(LifeGame.createFromStream(getAssets().open("toad_l.xml"), 6));
+			mField2.setGame(LifeGame.createFromStream(getAssets().open("baken_l.xml"), 6));
+			mField3.setGame(LifeGame.createFromStream(getAssets().open("watch_l.xml"), 6));
 		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
@@ -89,7 +92,7 @@ public class ConfigActivity extends Activity implements OnClickListener {
 			}
 		}, 700);
 	    
-	    select(1);
+	    select(2);
 	}
 	
 	@Override
