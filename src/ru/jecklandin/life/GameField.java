@@ -84,7 +84,7 @@ public class GameField extends TextView {
 	}
 	
 	public void save() {
-		mGame.save("/sdcard/toad_l.xml");
+		mGame.save("/sdcard/baken.xml");
 	}
 	
 	public void action() {
@@ -232,7 +232,6 @@ class LifeDrawer {
 						bm = mNewBorn;
 					}
 					canvas.drawBitmap(bm, CELL_SIZE*i, CELL_SIZE*j, mPaint);
-					canvas.drawBitmap(bm, bmatrix, mPaint);
 					mPaint.setColor(Color.WHITE);
 				} 		
 				if (mSelX == i && mSelY == j && mShowCursor) {

@@ -21,7 +21,7 @@ import android.widget.Button;
 
 public class MainActivity extends Activity implements OnClickListener {
 	
-	public static int MAIN_DIMENSION = 6;
+	public static int MAIN_DIMENSION = 15;
 	
 	private LifeGame mGame;
 	private GameField mField;
@@ -43,7 +43,7 @@ public class MainActivity extends Activity implements OnClickListener {
         setContentView(R.layout.alter);
         
         try {
-			mGame = LifeGame.createFromFile("/sdcard/baken_l.xml", 6);
+			mGame = LifeGame.createFromFile("/sdcard/toad.xml", 15);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}

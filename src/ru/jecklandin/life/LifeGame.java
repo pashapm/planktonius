@@ -1,6 +1,7 @@
 package ru.jecklandin.life;
 
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 import android.os.Handler;
 
@@ -45,6 +46,12 @@ public class LifeGame {
 	public static LifeGame createFromFile(String fn, int dim) throws FileNotFoundException {
 		LifeGame game = new LifeGame(dim);
 		game.mMatrix.readFromFile(fn);
+		return game;
+	}
+	
+	public static LifeGame createFromStream(InputStream is, int dim) throws FileNotFoundException {
+		LifeGame game = new LifeGame(dim);
+		game.mMatrix.readFromXml(is);
 		return game;
 	}
 	
