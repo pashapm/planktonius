@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, MainActivity!</string>
+    <string name="app_name">Life</string>
+    
+    <string name="choose_start">С чего начнем?</string>
+    <string name="choose_start_more">Выберите начальное состояние колонии</string>
+    <string name="baken">Бакен</string>
+    <string name="watch">Часы</string>
+    <string name="toad">Жаба</string>
+    
+    <string name="next">Далее</string>
+</resources>
