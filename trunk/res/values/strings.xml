@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="hello">Hello World, MainActivity!</string>
-    <string name="app_name">Life</string>
+    <string name="app_name">Планктониус</string>
     
     <string name="choose_start">С чего начнем?</string>
     <string name="choose_start_more">Выберите начальное состояние компании</string>
@@ -19,8 +19,11 @@
     
     <string name="info_units">Типы юнитов</string>
     
-    <string name="info_red">Демотивированный. 5-10$ в день</string>
+    <string name="info_red">Демотивированный (собирается увольняться). 5-10$ в день</string>
     <string name="info_green">Стажер-энтузиаст. 0-20$ в день</string>
     <string name="info_yellow">Рядовой сотрудник. Приносит 10-20$ в день</string>
+    
+    <string name="info_goal_head"> Цель игры </string>
+    <string name="info_goal">Один цикл занимает 4 часа. После окончания каждого цикла вы получаете прибыль и право уволить или нанять одного сотрудника. Ваша задача - вырастить свою фирму, эволюционировать до следующего уровня и заработать свой первый миллион. </string>
     
 </resources>
