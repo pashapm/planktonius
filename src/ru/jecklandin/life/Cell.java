@@ -10,6 +10,7 @@ public class Cell {
 	public final static int OK=0;
 	public final static int NEWBORN=1;
 	public final static int DYING=2;
+	public final static int NEXTBORN=3;
 	
 	
 	int x; //координаты клетки
@@ -57,6 +58,8 @@ public class Cell {
 			if ((neighbors<2)||(neighbors>3)) {
 				additStatus = DYING;
 			} 
+		} else if (this.status == DEAD && neighbors == 3) {
+			this.additStatus = NEXTBORN;
 		}
 	}
 	

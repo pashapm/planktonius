@@ -1,9 +1,11 @@
 package ru.jecklandin.life.widget;
 
-import java.util.Formatter.BigDecimalLayoutForm;
+import java.io.FileNotFoundException;
 
 import ru.jecklandin.life.GameField;
 import ru.jecklandin.life.LifeApp;
+import ru.jecklandin.life.LifeDrawer;
+import ru.jecklandin.life.LifeGame;
 import ru.jecklandin.life.MainActivity;
 import ru.jecklandin.life.R;
 import ru.jecklandin.life.ScrProps;
@@ -14,42 +16,63 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.util.Log;
 import android.widget.RemoteViews;
 
 public class LifeProvider extends AppWidgetProvider {
 
-    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        final int N = appWidgetIds.length;
+	private void next() {
+		try {
+			LifeGame game = LifeGame.createFromFile(LifeApp.mMatrixFile, 15);
+			game.next();
+			game.save();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
 
-        ScrProps.initialize(context);
-        
-        // Perform this loop procedure for each App Widget that belongs to this provider
-        for (int i=0; i<N; i++) {
-            int appWidgetId = appWidgetIds[i];
+	public void onUpdate(Context context, AppWidgetManager appWidgetManager,
+			int[] appWidgetIds) {
+		final int N = appWidgetIds.length;
 
-            // Create an Intent to launch ExampleActivity
-            Intent intent = new Intent(context, MainActivity.class);
-            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
-            
-            if (GameField.sInstance != null) {
-//            	Bitmap bm2 = GameField.sInstance.getScreenShot();
-            	
-            	State state = GameField.makeScreenshotFromFile(context, LifeApp.mMatrixFile);
-            	 
-            	
-                // Get the layout for the App Widget and attach an on-click listener to the button
-                RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.wid);
-                views.setOnClickPendingIntent(R.id.ImageView01, pendingIntent);
-                
-                if (state != null && state.bitmap != null) {
-                	views.setImageViewBitmap(R.id.ImageView01, state.bitmap);
-                	views.setTextViewText(R.id.cache, state.cache+"$");
-                    appWidgetManager.updateAppWidget(appWidgetId, views);
-                }
-            }
-        }
-    }
+		ScrProps.initialize(context);
+
+		for (int i = 0; i < N; i++) {
+			int appWidgetId = appWidgetIds[i];
+
+			// Create an Intent to launch ExampleActivity
+			Intent intent = new Intent(context, MainActivity.class);
+			PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
+					intent, 0);
+
+			State state = makeScreenshotFromFile(context);
+			RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.wid);
+			views.setOnClickPendingIntent(R.id.ImageView01, pendingIntent);
+
+			if (state != null && state.bitmap != null) {
+				views.setImageViewBitmap(R.id.ImageView01, state.bitmap);
+				views.setTextViewText(R.id.cache, state.cache + "$");
+				appWidgetManager.updateAppWidget(appWidgetId, views);
+			}
+		}
+	}
+
+	public static State makeScreenshotFromFile(Context ctx) {
+		Bitmap bm = Bitmap.createBitmap(100, 100, Bitmap.Config.RGB_565);
+		Canvas c = new Canvas(bm);
+
+		try {
+			LifeGame game = LifeGame.createFromFile(LifeApp.mMatrixFile, 15);
+			LifeDrawer drawer = new LifeDrawer(ctx);
+			drawer.setGame(game);
+			drawer.drawScreenshot(c);
+			State state = new State();
+			state.bitmap = bm;
+			state.cache = game.getCache();
+			return state;
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 }
