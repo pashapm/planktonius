@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
@@ -15,6 +16,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.Handler.Callback;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -94,6 +98,7 @@ public class MainActivity extends Activity implements OnClickListener {
 			break;
 		case R.id.action:
 			mField.action();
+			mGame.save();
 			break;
 		default:
 			break;
@@ -128,8 +133,21 @@ public class MainActivity extends Activity implements OnClickListener {
     	return super.onTouchEvent(event);
     }
     
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+    	 MenuInflater inflater = getMenuInflater();
+         inflater.inflate(R.menu.main_menu, menu);
+         return super.onCreateOptionsMenu(menu);
+    }
     
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+    	if (item.getItemId() == R.id.info) {
+    		Intent i = new Intent(this, Info.class);
+    		startActivity(i);
+    	}
+    	return super.onOptionsItemSelected(item);
+    }
 
     
 }

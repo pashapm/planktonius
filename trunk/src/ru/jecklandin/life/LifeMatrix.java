@@ -87,7 +87,7 @@ public class LifeMatrix extends ArrayList<Cell> {
 					sum += Math.random()*20;
 					break;
 				case Cell.DYING:
-					sum += Math.random()*10;
+					sum += Math.random()*5+5;
 					break;
 				default:
 					break;

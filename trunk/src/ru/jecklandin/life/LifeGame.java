@@ -46,8 +46,8 @@ public class LifeGame {
 		mMatrix.writeXmlToFile(LifeApp.mMatrixFile);
 	}
 	
-	public void save(String fn) {
-		mMatrix.writeXmlToFile(fn);
+	public void save() {
+		mMatrix.writeXmlToFile(LifeApp.mMatrixFile);
 	}
 	
 	public static LifeGame createFromFile(String fn, int dim) throws FileNotFoundException {
