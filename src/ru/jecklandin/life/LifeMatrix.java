@@ -23,6 +23,11 @@ public class LifeMatrix extends ArrayList<Cell> {
 	
 	private int mDim;
 	
+	/**
+	 * DOLLARS
+	 */
+	long mCache = 0;
+	
 	public LifeMatrix(int dim, double density) {
 		super(dim*dim);
 		mDim = dim;
@@ -70,6 +75,28 @@ public class LifeMatrix extends ArrayList<Cell> {
 		}
 	}
 	
+	public long countMoney() {
+		long sum = 0;
+		for (Cell c : this) {
+			if (c.status == Cell.ALIVE) {
+				switch (c.additStatus) {
+				case Cell.OK:
+					sum += Math.random()*10+15;
+					break;
+				case Cell.NEWBORN:
+					sum += Math.random()*20;
+					break;
+				case Cell.DYING:
+					sum += Math.random()*10;
+					break;
+				default:
+					break;
+				}
+			}
+		}
+		return sum;
+	}
+	
 	public Cell get(int x, int y) {
 		return get(idx(x, y));
 	}
@@ -99,6 +126,7 @@ public class LifeMatrix extends ArrayList<Cell> {
 	        serializer.setOutput(writer);
 	        serializer.startDocument("UTF-8", true);
 	        serializer.startTag("", "elements");
+	        serializer.attribute("", "value", mCache+"");
 	        for (Cell cell: this){
 	            serializer.startTag("", "cell");
 	            serializer.attribute("", "x", cell.x+"");
@@ -107,6 +135,7 @@ public class LifeMatrix extends ArrayList<Cell> {
 	            serializer.attribute("", "addStatus", cell.additStatus+"");
 	            serializer.endTag("", "cell");
 	        }
+	        
 	        serializer.endTag("", "elements");
 	        serializer.endDocument();
 	        return writer.toString();
@@ -165,9 +194,9 @@ class MatrixFeedParser {
                     case XmlPullParser.START_DOCUMENT:
                         break;
                     case XmlPullParser.START_TAG:
-                    	cell = new Cell(mMat, 0, 0, 0);
-                        name = parser.getName();
+                    	name = parser.getName();
                         if (name.equalsIgnoreCase("cell")){
+                           cell = new Cell(mMat, 0, 0, 0);
                            for (int i = 0; i<parser.getAttributeCount(); ++i) {
                         	   String an = parser.getAttributeName(i);
                         	   if (an.equals("x")) {
@@ -180,7 +209,14 @@ class MatrixFeedParser {
                         		   cell.additStatus = Integer.parseInt(parser.getAttributeValue(i));
                         	   }
                            }
-                        } 
+                        } else if (name.equalsIgnoreCase("elements")) {
+                        	 for (int i = 0; i<parser.getAttributeCount(); ++i) {
+                          	   String an = parser.getAttributeName(i);
+                          	   if (an.equals("value")) {
+                          		   mMat.mCache = Long.parseLong(parser.getAttributeValue(i));
+                          	   }
+                        	 }
+                        }
                         break;
                     case XmlPullParser.END_TAG:
                         name = parser.getName();

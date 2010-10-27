@@ -121,16 +121,20 @@ public class GameField extends TextView {
 		return bm;
 	}
 	
-	public static Bitmap makeScreenshotFromFile(Context ctx, String fn) {
+	public static State makeScreenshotFromFile(Context ctx, String fn) {
 		Bitmap bm = Bitmap.createBitmap(100, 100, Bitmap.Config.RGB_565);
 		Canvas c = new Canvas(bm);
+		
 		
 		try {
 			LifeGame game = LifeGame.createFromFile(fn, 15);
 			LifeDrawer drawer = new LifeDrawer(ctx);
 			drawer.setGame(game);
 			drawer.drawScreenshot(c);
-			return bm;
+			State state = new State();
+			state.bitmap = bm;
+			state.cache = game.getCache();
+			return state;
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			return null;
