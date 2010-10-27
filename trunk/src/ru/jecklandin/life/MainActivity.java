@@ -1,5 +1,6 @@
 package ru.jecklandin.life;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 
 import android.app.Activity;
@@ -9,6 +10,7 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Handler.Callback;
@@ -18,6 +20,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 public class MainActivity extends Activity implements OnClickListener {
 	
@@ -27,12 +30,14 @@ public class MainActivity extends Activity implements OnClickListener {
 	private GameField mField;
 	private Updater mUpdater;
 	
-	private Button mRight;
-	private Button mLeft;
-	private Button mTop;
-	private Button mBottom;
-	private Button mAction;
+	private ImageButton mRight;
+	private ImageButton mLeft;
+	private ImageButton mTop;
+	private ImageButton mBottom;
+	private ImageButton mAction;
 	private Button mSave;
+	
+	
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,7 +48,7 @@ public class MainActivity extends Activity implements OnClickListener {
         setContentView(R.layout.alter);
         
         try {
-			mGame = LifeGame.createFromFile("/sdcard/toad.xml", 15);
+			mGame = LifeGame.createFromFile(LifeApp.mMatrixFile, 15);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -54,11 +59,11 @@ public class MainActivity extends Activity implements OnClickListener {
         mUpdater = new Updater(mField);
         mUpdater.start();
         
-        mRight = (Button) findViewById(R.id.right);
-        mLeft = (Button) findViewById(R.id.left);
-        mTop = (Button) findViewById(R.id.up);
-        mBottom = (Button) findViewById(R.id.down);
-        mAction = (Button) findViewById(R.id.action);
+        mRight = (ImageButton) findViewById(R.id.right);
+        mLeft = (ImageButton) findViewById(R.id.left);
+        mTop = (ImageButton) findViewById(R.id.up);
+        mBottom = (ImageButton) findViewById(R.id.down);
+        mAction = (ImageButton) findViewById(R.id.action);
         mSave = (Button) findViewById(R.id.save);
         
         mRight.setOnClickListener(this);

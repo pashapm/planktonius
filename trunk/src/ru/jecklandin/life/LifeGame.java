@@ -17,6 +17,10 @@ public class LifeGame {
 		mMatrix.learnAfter();
 	}
 	
+	public long getCache() {
+		return mMatrix.mCache;
+	}
+	
 	public int getDimen() {
 		return mDimen;
 	}
@@ -37,6 +41,9 @@ public class LifeGame {
 		mMatrix.learn();
 		mMatrix.change();
 		mMatrix.learnAfter();
+		
+		mMatrix.mCache += mMatrix.countMoney();
+		mMatrix.writeXmlToFile(LifeApp.mMatrixFile);
 	}
 	
 	public void save(String fn) {
@@ -47,7 +54,7 @@ public class LifeGame {
 		LifeGame game = new LifeGame(dim);
 		game.mMatrix.readFromFile(fn);
 		return game;
-	}
+	} 
 	
 	public static LifeGame createFromStream(InputStream is, int dim) throws FileNotFoundException {
 		LifeGame game = new LifeGame(dim);

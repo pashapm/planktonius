@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
-  android:background="#00000000" android:layout_height="wrap_content" android:layout_width="wrap_content">
+  android:layout_height="wrap_content" android:layout_width="wrap_content" android:minHeight="130dip" android:minWidth="120dip" android:orientation="vertical" android:background="@drawable/bg">
 
 
-<ImageView android:id="@+id/ImageView01" android:layout_width="wrap_content" android:layout_height="wrap_content"></ImageView>
+<ImageView android:id="@+id/ImageView01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center_horizontal"></ImageView>
+<TextView android:layout_height="wrap_content" android:id="@+id/cache" android:text="0$" android:layout_width="fill_parent" android:gravity="center" android:textStyle="bold" android:paddingTop="5dip" android:textColor="#ffff00" android:textSize="17sp" android:typeface="normal"></TextView>
 </LinearLayout>

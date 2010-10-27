@@ -3,9 +3,11 @@ package ru.jecklandin.life.widget;
 import java.util.Formatter.BigDecimalLayoutForm;
 
 import ru.jecklandin.life.GameField;
+import ru.jecklandin.life.LifeApp;
 import ru.jecklandin.life.MainActivity;
 import ru.jecklandin.life.R;
 import ru.jecklandin.life.ScrProps;
+import ru.jecklandin.life.State;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -35,17 +37,18 @@ public class LifeProvider extends AppWidgetProvider {
             if (GameField.sInstance != null) {
 //            	Bitmap bm2 = GameField.sInstance.getScreenShot();
             	
-            	Bitmap bm2 = GameField.makeScreenshotFromFile(context, "/sdcard/matrix.xml");
-
+            	State state = GameField.makeScreenshotFromFile(context, LifeApp.mMatrixFile);
+            	 
+            	
                 // Get the layout for the App Widget and attach an on-click listener to the button
                 RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.wid);
                 views.setOnClickPendingIntent(R.id.ImageView01, pendingIntent);
                 
-                views.setImageViewBitmap(R.id.ImageView01, bm2);
-                
-
-                // Tell the AppWidgetManager to perform an update on the current App Widget
-                appWidgetManager.updateAppWidget(appWidgetId, views);
+                if (state != null && state.bitmap != null) {
+                	views.setImageViewBitmap(R.id.ImageView01, state.bitmap);
+                	views.setTextViewText(R.id.cache, state.cache+"$");
+                    appWidgetManager.updateAppWidget(appWidgetId, views);
+                }
             }
         }
     }
