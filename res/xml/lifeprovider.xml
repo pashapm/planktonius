@@ -3,5 +3,6 @@
     android:minHeight="146dp"
     android:updatePeriodMillis="10000"
     android:initialLayout="@layout/wid"
+    android:configure="ru.jecklandin.life.Info"
      >
 </appwidget-provider>

@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,10 +14,11 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class ConfigActivity extends Activity implements OnClickListener {
+public class ChooseActivity extends Activity implements OnClickListener {
 
 	private GameField mField1;
 	private GameField mField2;
@@ -32,6 +34,9 @@ public class ConfigActivity extends Activity implements OnClickListener {
 	
 	private Updater mUpdater;
 	
+	private Button mNext;
+	private String mSelectedAsset = "toad";
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -41,6 +46,17 @@ public class ConfigActivity extends Activity implements OnClickListener {
 		ScrProps.initialize(this);
 		
 		setContentView(R.layout.choose);
+		
+		mNext = (Button) findViewById(R.id.next);
+		mNext.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent(ChooseActivity.this, MainActivity.class);
+				i.putExtra("asset", mSelectedAsset);
+				startActivity(i);
+			}
+		});
 		
 		mField1 = (GameField) findViewById(R.id.start1);
 		mField2 = (GameField) findViewById(R.id.start2);
@@ -117,6 +133,8 @@ public class ConfigActivity extends Activity implements OnClickListener {
 			mTw1.setTextColor(Color.BLACK);
 			mTw2.setTextColor(Color.WHITE);
 			mTw3.setTextColor(Color.WHITE);
+			
+			mSelectedAsset = "toad";
 			break;
 		case 2:
 			mLay1.setBackgroundColor(Color.parseColor("#00000000"));
@@ -126,6 +144,8 @@ public class ConfigActivity extends Activity implements OnClickListener {
 			mTw1.setTextColor(Color.WHITE);
 			mTw2.setTextColor(Color.BLACK);
 			mTw3.setTextColor(Color.WHITE);
+			
+			mSelectedAsset = "baken";
 			break;
 		case 3:
 			mLay1.setBackgroundColor(Color.parseColor("#00000000"));
@@ -135,6 +155,8 @@ public class ConfigActivity extends Activity implements OnClickListener {
 			mTw1.setTextColor(Color.WHITE);
 			mTw2.setTextColor(Color.WHITE);
 			mTw3.setTextColor(Color.BLACK);
+			
+			mSelectedAsset = "watch";
 			break;
 		default:
 			break;
