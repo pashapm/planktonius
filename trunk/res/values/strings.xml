@@ -3,12 +3,15 @@
     <string name="hello">Hello World, MainActivity!</string>
     <string name="app_name">Планктониус</string>
     
+    <string name="start_btn">Начать</string>
     <string name="choose_start">С чего начнем?</string>
     <string name="choose_start_more">Выберите начальное состояние компании</string>
     <string name="baken">Филиал Омега-софт</string>
     <string name="watch">Стартап Плинтер</string>
     <string name="toad">ОАО Жабожаб</string>
     
+    <string name="contin">Продолжить игру</string>
+    <string name="new_game">Новая игра</string>
     <string name="next">Далее</string>
     
     <string name="info_goal_head"> Цель игры </string>

@@ -2,6 +2,7 @@ package ru.jecklandin.life;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import android.app.Activity;
 import android.content.Context;
@@ -41,8 +42,6 @@ public class MainActivity extends Activity implements OnClickListener {
 	private ImageButton mAction;
 	private Button mSave;
 	
-	
-	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,12 +51,18 @@ public class MainActivity extends Activity implements OnClickListener {
         setContentView(R.layout.alter);
         
         try {
-			mGame = LifeGame.createFromFile(LifeApp.mMatrixFile, 15);
+        	String asset = getIntent().getStringExtra("asset");
+        	if (asset != null) {
+        		mGame = LifeGame.createFromStream(getAssets().open(asset+".xml"), 15);
+        	} else {
+        		mGame = LifeGame.createFromFile(LifeApp.mMatrixFile, 15);
+        	}
 		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
         
-//        mGame = new LifeGame(MAIN_DIMENSION);
         mField = (GameField) findViewById(R.id.field);
         mField.setGame(mGame);
         mUpdater = new Updater(mField);

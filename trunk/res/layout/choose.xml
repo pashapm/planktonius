@@ -23,6 +23,6 @@
 </LinearLayout>
 
 </LinearLayout><TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerHorizontal="true" android:textSize="20sp" android:text="@string/choose_start" android:id="@+id/choose_head" android:layout_marginTop="5dip"></TextView>
-<Button android:id="@+id/Button01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentBottom="true" android:layout_alignParentRight="true" android:text="@string/next" android:minWidth="80dip" android:layout_margin="6dip"></Button>
+<Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentBottom="true" android:layout_alignParentRight="true" android:text="@string/next" android:minWidth="80dip" android:layout_margin="6dip" android:id="@+id/next"></Button>
 <TextView android:id="@+id/TextView05" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_below="@+id/choose_head" android:layout_centerHorizontal="true" android:text="@string/choose_start_more"></TextView>
 </RelativeLayout>
