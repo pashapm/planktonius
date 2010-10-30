@@ -25,7 +25,9 @@ import android.widget.RemoteViews;
 
 public class LifeProvider extends AppWidgetProvider {
 
-	public boolean load = false;
+	public static boolean paused = false;
+	
+	
 	
 //	@Override
 //	public void onReceive(Context context, Intent intent) {
@@ -59,9 +61,9 @@ public class LifeProvider extends AppWidgetProvider {
 
 		ScrProps.initialize(context);
 
-//		if (!load) {
-//			return;
-//		}
+		if (paused) {
+			return;
+		}
 		
 		for (int i = 0; i < N; i++) {
 			int appWidgetId = appWidgetIds[i];
@@ -97,10 +99,6 @@ public class LifeProvider extends AppWidgetProvider {
 		}  
 	}
 	
-	private void updateInfo() {
-		
-	}
-
 	public static State makeScreenshotFromFile(Context ctx) {
 		Bitmap bm = Bitmap.createBitmap(100, 100, Bitmap.Config.RGB_565);
 		Canvas c = new Canvas(bm);
@@ -119,6 +117,7 @@ public class LifeProvider extends AppWidgetProvider {
 			state.bitmap = bm;
 			state.cache = game.getCache();
 			state.isVoid = game.isFired();
+			state.lastTs = game.mMatrix.lastTimestamp;
 			return state;
 		} catch (Exception e) {
 			e.printStackTrace();

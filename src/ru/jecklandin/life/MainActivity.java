@@ -11,6 +11,8 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
@@ -20,6 +22,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Handler.Callback;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -46,6 +49,8 @@ public class MainActivity extends Activity implements OnClickListener {
 	private ImageButton mAction;
 	private Button mSave;
 	
+	long lastTimestamp;
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,8 +65,6 @@ public class MainActivity extends Activity implements OnClickListener {
     		startActivityForResult(i, 42);
     		return;
         }
-        
-        initGame();
     }
     
     private void initGame() {
@@ -118,8 +121,16 @@ public class MainActivity extends Activity implements OnClickListener {
 			break;
 		case R.id.action:
 			mField.action();
-			mGame.save();
-			break;
+			mGame.save(System.currentTimeMillis());
+			setEditable(false);
+			
+			lastTimestamp = System.currentTimeMillis();
+			SharedPreferences pref = getSharedPreferences("ololo", MODE_PRIVATE);
+			Editor ed = pref.edit().putLong("ts", lastTimestamp);
+			ed.commit();
+			Log.d("!!!!!!put", lastTimestamp+"");
+			
+			break;    
 		default:
 			break;
 		}
@@ -143,6 +154,29 @@ public class MainActivity extends Activity implements OnClickListener {
 		}
 		
 		return super.onKeyDown(keyCode, event);
+	}
+	
+	@Override
+	protected void onResume() {
+		LifeProvider.paused = true;
+		initGame();
+		
+		SharedPreferences pref = getSharedPreferences("ololo", MODE_PRIVATE);
+		long ts = pref.getLong("ts", 0);
+		Log.d("!!!!!!get", ts+""); 
+		
+		if (System.currentTimeMillis() - ts > 20000) {
+			setEditable(true);
+		} else {
+			setEditable(false);
+		}
+		super.onResume();
+	}
+	
+	@Override
+	protected void onPause() {
+		LifeProvider.paused = false;
+		super.onPause();
 	}
 	
     @Override
@@ -183,6 +217,17 @@ public class MainActivity extends Activity implements OnClickListener {
     				System.currentTimeMillis() + 10 * 1000 , 
     				10 * 1000, 
     				pend);
+    	}
+    }
+    
+    private void setEditable(boolean b) {
+    	if (b) {
+    		findViewById(R.id.action).setVisibility(View.VISIBLE);
+    	} else {
+    		findViewById(R.id.action).setVisibility(View.GONE);
+    	}
+    	if (mField != null && mField.mDrawer != null) {
+    		mField.mDrawer.mShowCursor = b;
     	}
     }
 }
