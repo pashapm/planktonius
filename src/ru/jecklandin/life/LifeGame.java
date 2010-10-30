@@ -48,6 +48,10 @@ public class LifeGame {
 		}
 	}
 	
+	public boolean isFired() {
+		return mMatrix.isFired();
+	}
+	
 	public void save() {
 		mMatrix.writeXmlToFile(LifeApp.mMatrixFile);
 	}
