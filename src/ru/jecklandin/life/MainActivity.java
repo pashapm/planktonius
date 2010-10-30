@@ -4,7 +4,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import ru.jecklandin.life.widget.LifeProvider;
+
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
@@ -34,7 +38,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	private LifeGame mGame;
 	private GameField mField;
 	private Updater mUpdater;
-	
+	  
 	private ImageButton mRight;
 	private ImageButton mLeft;
 	private ImageButton mTop;
@@ -50,19 +54,23 @@ public class MainActivity extends Activity implements OnClickListener {
         
         setContentView(R.layout.alter);
         
-        try {
-        	String asset = getIntent().getStringExtra("asset");
-        	if (asset != null) {
-        		mGame = LifeGame.createFromStream(getAssets().open(asset+".xml"), 15);
-        	} else {
-        		mGame = LifeGame.createFromFile(LifeApp.mMatrixFile, 15);
-        	}
-        	mGame.save();
+        File f = new File(LifeApp.mMatrixFile);
+        if (! f.exists()) {
+        	Intent i = new Intent(this, ChooseActivity.class);
+    		startActivityForResult(i, 42);
+    		return;
+        }
+        
+        initGame();
+    }
+    
+    private void initGame() {
+    	try {
+        	mGame = LifeGame.createFromFile(LifeApp.mMatrixFile, 15);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+			return;
+		} 
         
         mField = (GameField) findViewById(R.id.field);
         mField.setGame(mGame);
@@ -150,10 +158,25 @@ public class MainActivity extends Activity implements OnClickListener {
     public boolean onOptionsItemSelected(MenuItem item) {
     	if (item.getItemId() == R.id.info) {
     		Intent i = new Intent(this, Info.class);
+    		i.putExtra("mode", true);
     		startActivity(i);
     	}
     	return super.onOptionsItemSelected(item);
     }
-
-    
+ 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    	if (resultCode == Activity.RESULT_OK) {
+    		initGame();
+    		
+    		Intent upd = new Intent(this, LifeProvider.class);
+    		upd.setAction("ru.jecklandin.life.NEXT");
+    		PendingIntent pend = PendingIntent.getBroadcast(this, 43, upd, 0);
+    		AlarmManager mAlarm = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+    		mAlarm.setRepeating(AlarmManager.RTC_WAKEUP, 
+    				System.currentTimeMillis() + 10 * 1000 , 
+    				10 * 1000, 
+    				pend);
+    	}
+    }
 }

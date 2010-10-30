@@ -55,27 +55,18 @@ public class ChooseActivity extends Activity implements OnClickListener {
 			
 			@Override
 			public void onClick(View v) {
-//				Intent i = new Intent(ChooseActivity.this, MainActivity.class);
-//				i.putExtra("asset", mSelectedAsset);
-//				startActivity(i);
-				
+				setResult(RESULT_OK);
 				 try {
 					LifeGame.createFromStream(getAssets().open(mSelectedAsset+".xml"), 15).save();
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
+					setResult(RESULT_CANCELED);
 				} catch (IOException e) {
 					e.printStackTrace();
+					setResult(RESULT_CANCELED);
 				}
 				
-				
-				 Bundle extras = getIntent().getExtras();
-				 int mAppWidgetId = extras.getInt(
-	                    AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
-				 Log.d("!!!!!!",  mAppWidgetId+"");
-				 Intent resultValue = new Intent();
-		         resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
-		         setResult(RESULT_OK, resultValue);
-		         finish();
+		        finish();
 			}
 		});
 		
