@@ -8,7 +8,7 @@ import android.os.Handler;
 public class LifeGame {
 
 	private int mDimen;
-	private LifeMatrix mMatrix;
+	public LifeMatrix mMatrix;
 	
 	public LifeGame(int dim) {
 		super();
@@ -54,6 +54,10 @@ public class LifeGame {
 	
 	public void save() {
 		mMatrix.writeXmlToFile(LifeApp.mMatrixFile);
+	}
+	
+	public void save(long timestamp) {
+		mMatrix.writeXmlToFile(LifeApp.mMatrixFile, timestamp);
 	}
 	
 	public static LifeGame createFromFile(String fn, int dim) throws FileNotFoundException {

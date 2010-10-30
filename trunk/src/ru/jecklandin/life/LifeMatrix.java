@@ -28,6 +28,8 @@ public class LifeMatrix extends ArrayList<Cell> {
 	 */
 	long mCache = 0;
 	
+	public long lastTimestamp = 0;
+	
 	public LifeMatrix(int dim, double density) {
 		super(dim*dim);
 		mDim = dim;
@@ -119,7 +121,7 @@ public class LifeMatrix extends ArrayList<Cell> {
 		return x+y*mDim; 
 	}
 	
-	public String toXml(){
+	public String toXml(long timestamp){
 	    XmlSerializer serializer = Xml.newSerializer();
 	    StringWriter writer = new StringWriter();
 	    try {
@@ -127,6 +129,9 @@ public class LifeMatrix extends ArrayList<Cell> {
 	        serializer.startDocument("UTF-8", true);
 	        serializer.startTag("", "elements");
 	        serializer.attribute("", "value", mCache+"");
+	        if (timestamp !=0 ) {
+	        	 serializer.attribute("", "ts", timestamp+"");
+	        }
 	        for (Cell cell: this){
 	            serializer.startTag("", "cell");
 	            serializer.attribute("", "x", cell.x+"");
@@ -156,7 +161,7 @@ public class LifeMatrix extends ArrayList<Cell> {
 	}
 	
 	public void writeXmlToFile(String fn) {
-		String xml = toXml();
+		String xml = toXml(lastTimestamp);
 		File f= new File(fn);
 		FileWriter wr;
 		try {
@@ -175,6 +180,19 @@ public class LifeMatrix extends ArrayList<Cell> {
 			}
 		}
 		return true;
+	}
+
+	public void writeXmlToFile(String fn, long timestamp) {
+		String xml = toXml(timestamp);
+		File f= new File(fn);
+		FileWriter wr;
+		try {
+			wr = new FileWriter(f);
+			wr.append(xml);
+			wr.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
@@ -223,6 +241,8 @@ class MatrixFeedParser {
                           	   String an = parser.getAttributeName(i);
                           	   if (an.equals("value")) {
                           		   mMat.mCache = Long.parseLong(parser.getAttributeValue(i));
+                          	   } else if (an.equals("ts")) {
+                          		   mMat.lastTimestamp = Long.parseLong(parser.getAttributeValue(i));
                           	   }
                         	 }
                         }
