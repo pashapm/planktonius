@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import android.app.Activity;
+import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -47,14 +48,34 @@ public class ChooseActivity extends Activity implements OnClickListener {
 		
 		setContentView(R.layout.choose);
 		
+		setResult(RESULT_CANCELED);
+		
 		mNext = (Button) findViewById(R.id.next);
 		mNext.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				Intent i = new Intent(ChooseActivity.this, MainActivity.class);
-				i.putExtra("asset", mSelectedAsset);
-				startActivity(i);
+//				Intent i = new Intent(ChooseActivity.this, MainActivity.class);
+//				i.putExtra("asset", mSelectedAsset);
+//				startActivity(i);
+				
+				 try {
+					LifeGame.createFromStream(getAssets().open(mSelectedAsset+".xml"), 15).save();
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
+				
+				 Bundle extras = getIntent().getExtras();
+				 int mAppWidgetId = extras.getInt(
+	                    AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+				 Log.d("!!!!!!",  mAppWidgetId+"");
+				 Intent resultValue = new Intent();
+		         resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
+		         setResult(RESULT_OK, resultValue);
+		         finish();
 			}
 		});
 		
@@ -100,9 +121,9 @@ public class ChooseActivity extends Activity implements OnClickListener {
 			@Override
 			public void run() {
 				if (! mUpdater.isPaused) {
-					mField1.getGame().next();
-					mField2.getGame().next();
-					mField3.getGame().next();
+					mField1.getGame().next(false);
+					mField2.getGame().next(false);
+					mField3.getGame().next(false);
 				}
 				h.postDelayed(this, 700);
 			}

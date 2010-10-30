@@ -21,10 +21,12 @@ import android.widget.RemoteViews;
 
 public class LifeProvider extends AppWidgetProvider {
 
+	public boolean load = false;
+	
 	private void next() {
 		try {
 			LifeGame game = LifeGame.createFromFile(LifeApp.mMatrixFile, 15);
-			game.next();
+			game.next(true);
 			game.save();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -37,6 +39,10 @@ public class LifeProvider extends AppWidgetProvider {
 
 		ScrProps.initialize(context);
 
+//		if (!load) {
+//			return;
+//		}
+		
 		for (int i = 0; i < N; i++) {
 			int appWidgetId = appWidgetIds[i];
 
@@ -70,7 +76,7 @@ public class LifeProvider extends AppWidgetProvider {
 			state.bitmap = bm;
 			state.cache = game.getCache();
 			return state;
-		} catch (FileNotFoundException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}

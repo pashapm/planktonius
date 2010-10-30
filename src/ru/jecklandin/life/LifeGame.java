@@ -37,13 +37,15 @@ public class LifeGame {
 		mMatrix.computeNextState();
 	}
 	
-	public void next() {
+	public void next(boolean save) {
 		mMatrix.learn();
 		mMatrix.change();
 		mMatrix.learnAfter();
 		
-		mMatrix.mCache += mMatrix.countMoney();
-		mMatrix.writeXmlToFile(LifeApp.mMatrixFile);
+		if (save) {
+			mMatrix.mCache += mMatrix.countMoney();
+			mMatrix.writeXmlToFile(LifeApp.mMatrixFile);
+		}
 	}
 	
 	public void save() {

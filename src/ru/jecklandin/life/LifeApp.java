@@ -16,7 +16,7 @@ public class LifeApp extends Application {
         mMatrixFile  = root.getAbsolutePath()+"/matrix.xml";
         
         //
-        mMatrixFile  = "/sdcard/matrix.xml";
+        mMatrixFile  = "/sdcard/matrix1.xml";
 	}
 
 }

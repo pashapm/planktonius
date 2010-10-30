@@ -1,6 +1,7 @@
 package ru.jecklandin.life;
 
 import android.app.Activity;
+import android.appwidget.AppWidgetManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -19,7 +20,7 @@ public class Info extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.intro);
-		
+		setResult(RESULT_CANCELED);
 		mInfoMode = getIntent().getBooleanExtra("mode", false);
 	}
 	
@@ -61,9 +62,29 @@ public class Info extends Activity implements OnClickListener {
 	@Override
 	public void onClick(View arg0) {
 		switch (arg0.getId()) {
-		case R.id.new_game:
-			Intent i = new Intent(this, ChooseActivity.class);
-			startActivity(i);
+		case R.id.new_game:   
+			
+			Intent intent = getIntent();
+			Bundle extras = intent.getExtras();
+			int mAppWidgetId = 0;
+			if (extras != null) {
+			    mAppWidgetId = extras.getInt(
+			            AppWidgetManager.EXTRA_APPWIDGET_ID, 
+			            AppWidgetManager.INVALID_APPWIDGET_ID);
+			}
+			
+			Intent resultValue = new Intent();
+			resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
+			setResult(RESULT_OK, resultValue);
+			finish();
+			
+//			Intent i = new Intent(this, ChooseActivity.class);
+//			
+//			int id = getIntent().getExtras().getInt(AppWidgetManager.EXTRA_APPWIDGET_ID);
+//			i.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, id);
+//			
+//			startActivity(i);
+//			finish();
 			break;
 		case R.id.cont_btn:
 			Intent i1 = new Intent(this, MainActivity.class);
