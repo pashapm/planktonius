@@ -15,7 +15,7 @@
 
 
 
-<LinearLayout android:id="@+id/LinearLayout04" android:layout_height="wrap_content" android:layout_width="fill_parent"><Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_margin="10dip" android:text="@string/new_game" android:id="@+id/new_game"></Button><LinearLayout android:id="@+id/LinearLayout05" android:layout_height="wrap_content" android:layout_width="fill_parent" android:layout_weight="1"></LinearLayout><Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:minWidth="90dip" android:layout_margin="10dip" android:id="@+id/cont_btn" android:text="@string/contin"></Button>
+<LinearLayout android:id="@+id/LinearLayout04" android:layout_height="wrap_content" android:layout_width="fill_parent"><LinearLayout android:id="@+id/LinearLayout05" android:layout_height="wrap_content" android:layout_width="fill_parent" android:layout_weight="1"></LinearLayout><Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:minWidth="90dip" android:layout_margin="10dip" android:id="@+id/cont_btn" android:text="@string/contin"></Button>
 
 </LinearLayout>
 </LinearLayout>

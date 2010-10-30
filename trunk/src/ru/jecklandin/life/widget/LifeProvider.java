@@ -1,5 +1,6 @@
 package ru.jecklandin.life.widget;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 
 import ru.jecklandin.life.GameField;
@@ -17,19 +18,36 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.util.Log;
 import android.widget.RemoteViews;
 
 public class LifeProvider extends AppWidgetProvider {
 
 	public boolean load = false;
 	
-	private void next() {
+//	@Override
+//	public void onReceive(Context context, Intent intent) {
+//		if (intent.getAction().equals("ru.jecklandin.life.NEXT")) {
+//			Log.d("", "UPDATING");
+//			if (next()) {
+//				intent.setAction("android.appwidget.action.APPWIDGET_UPDATE");
+//				intent.setClass(context, LifeProvider.class);
+//				context.sendBroadcast(intent);
+//			}
+//		}
+//		
+//		super.onReceive(context, intent);
+//	}
+	
+	private boolean next() {
 		try {
 			LifeGame game = LifeGame.createFromFile(LifeApp.mMatrixFile, 15);
 			game.next(true);
 			game.save();
+			return true;
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
+			return false;
 		}
 	}
 
@@ -51,22 +69,32 @@ public class LifeProvider extends AppWidgetProvider {
 			PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
 					intent, 0);
 
-			State state = makeScreenshotFromFile(context);
 			RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.wid);
-			views.setOnClickPendingIntent(R.id.ImageView01, pendingIntent);
+			views.setOnClickPendingIntent(R.id.wlay, pendingIntent);
+			
+			State state = makeScreenshotFromFile(context);
 
 			if (state != null && state.bitmap != null) {
 				views.setImageViewBitmap(R.id.ImageView01, state.bitmap);
 				views.setTextViewText(R.id.cache, state.cache + "$");
-				appWidgetManager.updateAppWidget(appWidgetId, views);
-			}
-		}
+			}  
+			appWidgetManager.updateAppWidget(appWidgetId, views);
+		}  
+	}
+	
+	private void updateInfo() {
+		
 	}
 
 	public static State makeScreenshotFromFile(Context ctx) {
 		Bitmap bm = Bitmap.createBitmap(100, 100, Bitmap.Config.RGB_565);
 		Canvas c = new Canvas(bm);
 
+		File f = new File(LifeApp.mMatrixFile); 
+		if (!f.exists()) {
+			return null;
+		}
+		
 		try {
 			LifeGame game = LifeGame.createFromFile(LifeApp.mMatrixFile, 15);
 			LifeDrawer drawer = new LifeDrawer(ctx);

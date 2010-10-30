@@ -37,13 +37,10 @@ public class Info extends Activity implements OnClickListener {
 			break;
 		case 1:
 			setContentView(R.layout.info_units);
-			Button startBtn = (Button) findViewById(R.id.new_game);
 			Button contBtn = (Button) findViewById(R.id.cont_btn);
 			if (mInfoMode) {
-				startBtn.setVisibility(View.GONE);
 				contBtn.setVisibility(View.GONE);
 			} else {
-				startBtn.setOnClickListener(this);
 				contBtn.setOnClickListener(this);
 			}
 			mPrevScreen = 2;
@@ -62,8 +59,7 @@ public class Info extends Activity implements OnClickListener {
 	@Override
 	public void onClick(View arg0) {
 		switch (arg0.getId()) {
-		case R.id.new_game:   
-			
+		case R.id.cont_btn:
 			Intent intent = getIntent();
 			Bundle extras = intent.getExtras();
 			int mAppWidgetId = 0;
@@ -77,18 +73,6 @@ public class Info extends Activity implements OnClickListener {
 			resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
 			setResult(RESULT_OK, resultValue);
 			finish();
-			
-//			Intent i = new Intent(this, ChooseActivity.class);
-//			
-//			int id = getIntent().getExtras().getInt(AppWidgetManager.EXTRA_APPWIDGET_ID);
-//			i.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, id);
-//			
-//			startActivity(i);
-//			finish();
-			break;
-		case R.id.cont_btn:
-			Intent i1 = new Intent(this, MainActivity.class);
-			startActivity(i1);
 			break;
 		default:
 			break;
