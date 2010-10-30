@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_height="wrap_content" android:orientation="vertical"
-	android:layout_width="fill_parent">
+	android:orientation="vertical"
+	android:layout_width="fill_parent" android:layout_height="fill_parent">
 
 
 
@@ -17,5 +17,5 @@
 
 <LinearLayout android:id="@+id/LinearLayout04" android:layout_height="wrap_content" android:layout_width="fill_parent"><LinearLayout android:id="@+id/LinearLayout05" android:layout_height="wrap_content" android:layout_width="fill_parent" android:layout_weight="1"></LinearLayout><Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:minWidth="90dip" android:layout_margin="10dip" android:id="@+id/cont_btn" android:text="@string/contin"></Button>
 
-</LinearLayout>
+</LinearLayout><TextView android:textColor="#00ff00" android:layout_width="fill_parent" android:gravity="bottom|center_horizontal" android:layout_height="fill_parent" android:layout_weight="1" android:paddingBottom="5dip" android:text="Далее" android:layout_gravity="bottom|center_horizontal" android:id="@+id/further"></TextView>
 </LinearLayout>

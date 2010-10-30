@@ -72,6 +72,12 @@ public class MainActivity extends Activity implements OnClickListener {
 			return;
 		} 
         
+		if (mGame.isFired()) {
+			Intent i = new Intent(this, ChooseActivity.class);
+    		startActivityForResult(i, 42);
+    		return;
+		}
+		
         mField = (GameField) findViewById(R.id.field);
         mField.setGame(mGame);
         mUpdater = new Updater(mField);

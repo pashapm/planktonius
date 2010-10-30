@@ -168,6 +168,15 @@ public class LifeMatrix extends ArrayList<Cell> {
 		}
 	}
 
+	public boolean isFired() {
+		for (Cell c : this) {
+			if (c.status == Cell.ALIVE) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 }
 
 class MatrixFeedParser {

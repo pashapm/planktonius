@@ -18,6 +18,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Bitmap.Config;
 import android.util.Log;
 import android.widget.RemoteViews;
 
@@ -64,6 +66,9 @@ public class LifeProvider extends AppWidgetProvider {
 		for (int i = 0; i < N; i++) {
 			int appWidgetId = appWidgetIds[i];
 
+			Log.d("!!!!!!!" , "NEXT");
+			boolean next_ok = next();
+			
 			// Create an Intent to launch ExampleActivity
 			Intent intent = new Intent(context, MainActivity.class);
 			PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
@@ -72,12 +77,22 @@ public class LifeProvider extends AppWidgetProvider {
 			RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.wid);
 			views.setOnClickPendingIntent(R.id.wlay, pendingIntent);
 			
+			Bitmap emp = Bitmap.createBitmap(1, 1, Config.ARGB_8888);
+			emp.setPixel(0, 0, Color.TRANSPARENT);
+			
 			State state = makeScreenshotFromFile(context);
-
 			if (state != null && state.bitmap != null) {
-				views.setImageViewBitmap(R.id.ImageView01, state.bitmap);
-				views.setTextViewText(R.id.cache, state.cache + "$");
-			}  
+				if (state.isVoid) {
+					views.setImageViewBitmap(R.id.ImageView01, emp);
+					views.setTextViewText(R.id.cache, "Lo-o-oser..\n\nPress to\nrestart");
+				} else {
+					views.setImageViewBitmap(R.id.ImageView01, state.bitmap);
+					views.setTextViewText(R.id.cache, state.cache + "$");
+				}
+			} else {
+				views.setImageViewBitmap(R.id.ImageView01, emp);
+				views.setTextViewText(R.id.cache, "Press to\nstart");
+			}
 			appWidgetManager.updateAppWidget(appWidgetId, views);
 		}  
 	}
@@ -103,6 +118,7 @@ public class LifeProvider extends AppWidgetProvider {
 			State state = new State();
 			state.bitmap = bm;
 			state.cache = game.getCache();
+			state.isVoid = game.isFired();
 			return state;
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -41,6 +41,7 @@ public class Info extends Activity implements OnClickListener {
 			if (mInfoMode) {
 				contBtn.setVisibility(View.GONE);
 			} else {
+				findViewById(R.id.further).setVisibility(View.GONE);
 				contBtn.setOnClickListener(this);
 			}
 			mPrevScreen = 2;
