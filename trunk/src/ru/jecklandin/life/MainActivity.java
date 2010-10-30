@@ -57,6 +57,7 @@ public class MainActivity extends Activity implements OnClickListener {
         	} else {
         		mGame = LifeGame.createFromFile(LifeApp.mMatrixFile, 15);
         	}
+        	mGame.save();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -133,7 +134,7 @@ public class MainActivity extends Activity implements OnClickListener {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
     	if (event.getAction() == MotionEvent.ACTION_DOWN) {
-    		mGame.next();
+    		mGame.next(true);
     	}
     	return super.onTouchEvent(event);
     }
